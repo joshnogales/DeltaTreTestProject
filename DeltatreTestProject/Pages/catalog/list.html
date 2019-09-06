@@ -1,0 +1,42 @@
+﻿<div class="row">
+    <div class="col-12">
+        <div class="h2 pb-2">Products Catalog</div>
+        <table class="table table-bordered" ng-if="products.length > 0">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Description</td>
+                    <td>Quantity Available</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="product in products" ng-class="{'table-success': product.isNew && product.Name == lastAddedName, 'table-warning': product.isNew && product.Name !== lastAddedName}">
+                    <td>{{product.Name}}</td>
+                    <td>{{product.Description}}</td>
+                    <td>{{product.Quantity}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-if="hasLoaded && products.length == 0" class="pb-2">
+            <span class="text-info">No products found. Please add first item:</span>
+        </div>
+    </div>
+</div>
+<!--TODO: Make this a modal or semething cleaner-->
+<div class="row form-group">
+    <div class="col-3">
+        <input class="form-control" type="text" placeholder="Name" ng-model="inputProductName" />
+    </div>
+    <div class="col-4">
+        <input class="form-control" type="text" placeholder="Description" ng-model="inputProductDescription" />
+    </div>
+    <div class="col-2">
+        <input class="form-control" type="number" min="0" placeholder="Quantity" ng-model="inputProductQty" />
+    </div>
+    <div class="col-12 pt-4">
+        <input type="button" class="btn btn-primary" value="Add Product" ng-click="submitNewProduct()" />
+        <span ng-if="submitClicked && inputProductName.trim().length == 0" class="text-danger ml-2">Name required!</span>
+        <span ng-if="submitClicked && inputProductQty == null" class="text-danger ml-2">Quantity required!</span>
+        <span ng-if="inputProductName == conflictName" class="text-danger ml-2">Product already exists!</span>
+    </div>
+</div>
